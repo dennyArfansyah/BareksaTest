@@ -7,11 +7,14 @@
 
 import Foundation
 import Toast_Swift
+import Combine
 
 class HomeViewModel {
     
     var caller: HomeViewController
     var service: HomeService
+    @Published var detail = [DetailData]()
+    private var titles = ["Jenis Reksa Dana", "Imbal Hasil", "Dana Kelolaan", "Min. Pembelian", "Janga Waktu", "Tinggkat Resiko", "Peluncuran"]
 
     init(caller: HomeViewController, service: HomeService = HomeServiceManager()) {
         self.caller = caller
@@ -33,13 +36,19 @@ class HomeViewModel {
     }
     
     private func set(with detail: [Detail]) {
-//        let vc = DetailViewController()
-//        vc.viewModel = DetailViewModel(caller: vc, weather: weather)
-//        self.caller.navigationController?.pushViewController(vc, animated: true)
+        var detData = [DetailData]()
+        
+        for title in titles {
+            detData.append(DetailData(title: title, detail: detail))
+        }
+    
+        self.detail = detData
     }
     
     private func showToast(with errorMessage: String) {
         self.caller.view.makeToast(errorMessage)
     }
+    
+    
     
 }
